@@ -2,9 +2,10 @@
  * Alipay.com Inc.
  * Copyright (c) 2004-2020 All Rights Reserved.
  */
-package testTemplate;
+package unittest.testTemplate;
 
-import action.NormalTest;
+import unittest.AbstractUnitTest;
+import unittest.action.NormalTest;
 
 import java.lang.reflect.Method;
 

@@ -1,3 +1,4 @@
+package unittest;
 /**
  * Alipay.com Inc.
  * Copyright (c) 2004-2020 All Rights Reserved.
@@ -7,16 +8,16 @@ import static org.junit.Assert.fail;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.Arrays;
 
-import action.AbnormalTest;
-import action.DataPrepare;
-import action.NormalTest;
 import org.junit.Assert;
+
+import unittest.action.AbnormalTest;
+import unittest.action.DataPrepare;
+import unittest.action.NormalTest;
 
 /**
  * @author enqing.teq
- * @version $Id: AbstractUnitTest, v0.1 2020年01月20日 上午11:15 enqing.teq Exp $
+ * @version $Id: unittest.AbstractUnitTest, v0.1 2020年01月20日 上午11:15 enqing.teq Exp $
  */
 public abstract class AbstractUnitTest implements DataPrepare {
     private Object object;
@@ -40,11 +41,6 @@ public abstract class AbstractUnitTest implements DataPrepare {
         testCase();
     }
 
-    @Override
-    public void dataPrepare() {
-
-    }
-
     private void testCase() {
         dataPrepare();
         if (this instanceof NormalTest) {
@@ -64,8 +60,9 @@ public abstract class AbstractUnitTest implements DataPrepare {
             return null;
         }
     }
+
     public Object normalCaseProcessPrintResult(Object... args) {
-        Object object =  normalCaseProcess(args);
+        Object object = normalCaseProcess(args);
         System.out.println(object);
         return object;
     }
@@ -115,7 +112,9 @@ public abstract class AbstractUnitTest implements DataPrepare {
         if (method == null) {
             Method localMethod = fetchMethod(object, args[0]);
             localMethod.setAccessible(true);
-            return localMethod.invoke(object, Arrays.copyOfRange(args, 1, args.length));
+            Object[] newArgs = new Object[args.length - 1];
+            System.arraycopy(args, 1, newArgs, 0, args.length - 1);
+            return localMethod.invoke(object, newArgs);
         }
         method.setAccessible(true);
         return method.invoke(object, args);
